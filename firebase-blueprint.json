@@ -1,0 +1,96 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Doctor or receptionist",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string", "enum": ["doctor", "receptionist"] },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["email", "role", "createdAt"]
+    },
+    "Patient": {
+      "title": "Patient",
+      "description": "Patient records",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "age": { "type": "number" },
+        "gender": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["name", "phone", "createdAt"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Token-based appointment slots",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string" },
+        "patientName": { "type": "string" },
+        "date": { "type": "string" },
+        "session": { "type": "string", "enum": ["morning", "evening"] },
+        "tokenNumber": { "type": "number" },
+        "status": { "type": "string", "enum": ["booked", "completed", "cancelled"] },
+        "consultationReason": { "type": "string" },
+        "doctorFee": { "type": "number" },
+        "platformFee": { "type": "number" },
+        "paymentStatus": { "type": "string", "enum": ["pending", "paid"] },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["patientId", "patientName", "date", "session", "tokenNumber", "status", "paymentStatus", "createdAt"]
+    },
+    "Prescription": {
+      "title": "Prescription",
+      "description": "Handwritten notes digitized to PDF dataURI",
+      "type": "object",
+      "properties": {
+        "appointmentId": { "type": "string" },
+        "patientId": { "type": "string" },
+        "notes": { "type": "string" },
+        "pdfDataUri": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["appointmentId", "patientId", "pdfDataUri", "createdAt"]
+    },
+    "MedicalDocument": {
+      "title": "Medical Document",
+      "description": "Patient scans/reports stored as base64 string",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string" },
+        "type": { "type": "string" },
+        "name": { "type": "string" },
+        "fileDataUri": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["patientId", "name", "fileDataUri", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profiles (auth)"
+    },
+    "patients/{patientId}": {
+      "schema": { "$ref": "#/entities/Patient" },
+      "description": "Patient details"
+    },
+    "appointments/{appointmentId}": {
+      "schema": { "$ref": "#/entities/Appointment" },
+      "description": "Appointments for patients"
+    },
+    "prescriptions/{prescriptionId}": {
+      "schema": { "$ref": "#/entities/Prescription" },
+      "description": "Consultation prescriptions"
+    },
+    "medicalDocuments/{documentId}": {
+      "schema": { "$ref": "#/entities/MedicalDocument" },
+      "description": "Patient uploads"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Prescripta",
+  "description": "ePrescription & Appointment Management System",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
